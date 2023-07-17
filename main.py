@@ -46,7 +46,7 @@ def main():
     end = request.args.get('END_DATE') or os.environ.get('END_DATE', f'12/{current_year}')
     level_name = request.args.get('LEVEL_NAME') or os.environ.get('LEVEL_NAME', 'LevelName1')
     dim_name = request.args.get('DIM_NAME') or os.environ.get('DIM_NAME', 'DimName1')
-    dim = request.args.get('DIM') or os.environ.get('DIM', 'DIm1')
+    dim = request.args.get('DIM') or os.environ.get('DIM', 'Dim1')
     version_name = request.args.get('VERSION_NAME') or os.environ.get('VERSION_NAME', 'VersionName1')
     # Set the Google Cloud Platform project, dataset, and table details
     project_id = "$PROJECT_ID"
