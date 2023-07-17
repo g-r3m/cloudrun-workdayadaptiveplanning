@@ -54,7 +54,7 @@ def main():
     table_id = "$TABLE_ID"
     # Set & Get the WAP API
     url = "https://api.adaptiveinsights.com/api/v36"
-    data = get_secret(project_id, "adaptive_login")
+    data = get_secret(project_id, "ADAPTIVE_LOGIN")
     login = data["login"]
     password = data["password"]
     payload = f"""<?xml version='1.0' encoding='UTF-8'?>
