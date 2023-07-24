@@ -52,9 +52,9 @@ def main():
     project_id = "$PROJECT_ID"
     dataset_id = "*DATASET_ID"
     table_id = "$TABLE_ID"
-    # Set & Get the WAP API
+# Set & Get the WAP API
     url = "https://api.adaptiveinsights.com/api/v36"
-    data = get_secret(project_id, "ADAPTIVE_LOGIN")
+    data = get_secret(project_id, "adaptive_login")
     login = data["login"]
     password = data["password"]
     payload = f"""<?xml version='1.0' encoding='UTF-8'?>
@@ -92,12 +92,14 @@ def main():
     # Save the result in a file in the /tmp folder
     file_path = "/tmp/output.xml"
     #debug var bellow
+    #file_path = "services/cloud-run-wap/output.xml"
     with open(file_path, "wb") as file:
         for chunk in response.iter_content(chunk_size=128):
             file.write(chunk)
     # Parse the XML
     xtree = et.parse(file_path)
     root = xtree.getroot()
+    print(xtree)
     # Extract the output text from CDATA
     data = root.find('output')
     if data is not None:
@@ -107,7 +109,8 @@ def main():
         rows = data[1:]
         # Clean the header
         # Create a CSV file
-        # Put file in /tmp/ folder for GCR
+        
+        #with open('services/cloud-run-wap/output.csv', 'w', newline='') as #csvfile:
         with open('/tmp/output.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             
@@ -124,6 +127,7 @@ def main():
 
         # Set the path to the CSV file
         csv_file = "/tmp/output.csv"
+        #csv_file = "services/cloud-run-wap/output.csv"
         # Define the BigQuery dataset and table references
         table_ref = client.dataset(dataset_id).table(table_id)
 
@@ -161,11 +165,6 @@ def main():
         return jsonify(error_data), 500
 
     return jsonify(loaded_data), 200
-
-
-if __name__ == "__main__":
-    server_port = os.environ.get("PORT", "8080")
-    app.run(debug=False, port=server_port, host="0.0.0.0")
 
 
 if __name__ == "__main__":
